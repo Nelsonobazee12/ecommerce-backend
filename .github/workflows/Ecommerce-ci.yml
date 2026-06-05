@@ -63,10 +63,15 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Fix broken cacerts symlink
+      - name: Pre-fetch Gradle distribution
         run: |
-          sudo mkdir -p /etc/ssl/certs/adoptium
-          sudo ln -sf /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/adoptium/cacerts
+          GRADLE_DIR="$HOME/.gradle/wrapper/dists/gradle-8.14.5-bin"
+          mkdir -p "$GRADLE_DIR"
+          curl -fL "https://services.gradle.org/distributions/gradle-8.14.5-bin.zip" \
+            -o "$GRADLE_DIR/gradle-8.14.5-bin.zip"
+          cd "$GRADLE_DIR"
+          unzip -q gradle-8.14.5-bin.zip
+          touch gradle-8.14.5-bin.zip.ok
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
