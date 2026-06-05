@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true  # CRITICAL: This ensures Hibernate creates tables first
+
+  sql:
+    init:
+      mode: never  # Disable automatic script execution
+      # OR use 'always' but with defer-datasource-initialization: true
+
+  mail:
+    host: localhost
+    port: 1025
+    protocol: smtp
+    test-connection: false
+
+  flyway:
+    enabled: false
+
+# Disable rate limiting for tests
+rate-limiting:
+  enabled: false
+
+# Disable email for tests
+app:
+  email:
+    enabled: false
+
+jwt:
+  secret: test-secret-key-minimum-256-bits-long-for-hs256-algorithm-padding
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    root: WARN
+    com.ecommerce: INFO

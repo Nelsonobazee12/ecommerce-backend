@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: ecommerce-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: your_email@gmail.com
+#    password: your_app_password
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    com.ecommerce: DEBUG
+
+application:
+  jwt:
+    secret: "3f8a2b1c9d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a"
+    expiration: 86400000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+stripe:
+  secret-key: sk_test_51TbxODATr73tHLSe5yN2ATuQ9cWLOxWL3Uo4T47abdvCpXS1Ju2ww0y7Jog3JnX8XAEgvMVanUemQTgbjeizdmRV00yW42V9R3
+  publishable-key: pk_test_51TbxODATr73tHLSefSYCSpAw7wuLN9AeX682zAmwRs4TQQvnKrvCqefwxlLFbSqoPhwjTpoBH1IcVmdt6GROAhIm00xWwf2bo5
+  webhook-secret: placeholder
+
+cloudinary:
+  cloud-name: dbjwj3ugv
+  api-key: 125992874872544
+  api-secret: sdhunvUpeB6wn78sRuTDsynkmHQ
+
