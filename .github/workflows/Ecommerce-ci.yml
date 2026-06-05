@@ -63,8 +63,26 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Fix Java SSL trust store
+        run: |
+          JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+          CACERTS="$JAVA_HOME/lib/security/cacerts"
+          echo "JAVA_HOME: $JAVA_HOME"
+          echo "cacerts exists: $(ls -la $CACERTS 2>/dev/null || echo 'NOT FOUND')"
+          # Re-link to system trust store if cacerts is missing or broken
+          if [ ! -f "$CACERTS" ]; then
+            sudo mkdir -p "$JAVA_HOME/lib/security"
+            sudo ln -sf /etc/ssl/certs/java/cacerts "$CACERTS"
+          fi
+          # Update system certs
+          sudo apt-get install -y ca-certificates-java
+          sudo update-ca-certificates --fresh
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build (skip tests for fast feedback on compile errors)
         run: ./gradlew classes -x test
