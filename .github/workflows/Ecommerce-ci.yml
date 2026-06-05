@@ -66,18 +66,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Pre-download Gradle distribution via curl
-        run: |
-          GRADLE_VERSION=$(cat gradle/wrapper/gradle-wrapper.properties | grep distributionUrl | grep -oP '\d+\.\d+(\.\d+)?')
-          GRADLE_ZIP="gradle-${GRADLE_VERSION}-bin.zip"
-          GRADLE_CACHE_DIR="${HOME}/.gradle/wrapper/dists/gradle-${GRADLE_VERSION}-bin"
-          mkdir -p "${GRADLE_CACHE_DIR}"
-          echo "Downloading Gradle ${GRADLE_VERSION}..."
-          curl -fL "https://services.gradle.org/distributions/${GRADLE_ZIP}" \
-            -o "${GRADLE_CACHE_DIR}/${GRADLE_ZIP}"
-          # Create the marker file Gradle wrapper looks for
-          echo "ok" > "${GRADLE_CACHE_DIR}/${GRADLE_ZIP}.ok"
-
       - name: Build (skip tests for fast feedback on compile errors)
         run: ./gradlew classes -x test
 
